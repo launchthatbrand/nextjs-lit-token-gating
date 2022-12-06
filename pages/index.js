@@ -8,8 +8,8 @@ import { UUIDContext } from '../context'
 
 const accessControlConditions = [
   {
-    contractAddress: '0x25ed58c027921E14D86380eA2646E3a1B5C55A8b',
-    standardContractType: 'ERC721',
+    contractAddress: '0xd07dc4262bcdbf85190c01c996b4c06a461d2430/730724',
+    standardContractType: 'ERC1155',
     chain: 'ethereum',
     method: 'balanceOf',
     parameters: [
