@@ -1,57 +1,62 @@
-import { useState, useContext } from 'react'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import LitJsSdk from 'lit-js-sdk'
-import Cookies from 'js-cookie'
-import { UUIDContext } from '../context'
+import { useState, useContext } from "react";
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import LitJsSdk from "lit-js-sdk";
+import Cookies from "js-cookie";
+import { UUIDContext } from "../context";
 
 const accessControlConditions = [
   {
-    contractAddress: '0xd07dc4262bcdbf85190c01c996b4c06a461d2430/730724',
-    standardContractType: 'ERC1155',
-    chain: 'ethereum',
-    method: 'balanceOf',
-    parameters: [
-      ':userAddress'
-    ],
+    contractAddress: "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
+    standardContractType: "ERC1155",
+    chain: "ethereum",
+    method: "balanceOf",
+    parameters: [":userAddress", "730724"],
     returnValueTest: {
-      comparator: '>',
-      value: '0'
-    }
-  }
-]
-
+      comparator: ">",
+      value: "0",
+    },
+  },
+];
 
 export default function Home() {
-  const [connected, setConnected] = useState()
-  const { id } = useContext(UUIDContext)
+  const [connected, setConnected] = useState();
+  const { id } = useContext(UUIDContext);
 
   async function connect() {
     const resourceId = {
-      baseUrl: 'http://localhost:3000',
-      path: '/protected',
+      baseUrl: "http://localhost:3000",
+      path: "/protected",
       orgId: "",
       role: "",
-      extraData: id
-    }
+      extraData: id,
+    };
 
-    const client = new LitJsSdk.LitNodeClient({ alertWhenUnauthorized: false })
-    await client.connect()
-    const authSig = await LitJsSdk.checkAndSignAuthMessage({chain: 'ethereum'})
+    const client = new LitJsSdk.LitNodeClient({ alertWhenUnauthorized: false });
+    await client.connect();
+    const authSig = await LitJsSdk.checkAndSignAuthMessage({
+      chain: "ethereum",
+    });
 
-    await client.saveSigningCondition({ accessControlConditions, chain: 'ethereum', authSig, resourceId })
+    await client.saveSigningCondition({
+      accessControlConditions,
+      chain: "ethereum",
+      authSig,
+      resourceId,
+    });
     try {
       const jwt = await client.getSignedToken({
-        accessControlConditions, chain: 'ethereum', authSig, resourceId: resourceId
-      })
-      Cookies.set('lit-auth', jwt, { expires: 1 })
-
+        accessControlConditions,
+        chain: "ethereum",
+        authSig,
+        resourceId: resourceId,
+      });
+      Cookies.set("lit-auth", jwt, { expires: 1 });
     } catch (err) {
-      console.log('error: ', err)
+      console.log("error: ", err);
     }
-    setConnected(true)
-
+    setConnected(true);
   }
 
   return (
@@ -63,22 +68,20 @@ export default function Home() {
       </Head>
 
       <h1>Developer DAO Access</h1>
-      {
-        !connected && <button onClick={connect}>Connect</button>
-      }
-     
+      {!connected && <button onClick={connect}>Connect</button>}
+
       <footer className={styles.footer}>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
 }
