@@ -40,10 +40,10 @@ function MyApp({ Component, pageProps }) {
         }}
       >
         {Component.auth ? (
-          <Auth>
-            <Component {...pageProps} />
-          </Auth>
+          // <Auth>
+          <Component {...pageProps} />
         ) : (
+          // </Auth>
           <Layout>
             <Component {...pageProps} />
           </Layout>
