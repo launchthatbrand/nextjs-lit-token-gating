@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import LitJsSdk from "lit-js-sdk";
 import Cookies from "js-cookie";
 import { UUIDContext } from "../context";
+import Navbar from "../components/Navbars/AuthNavbar";
 
 const accessControlConditions = [
   {
@@ -67,8 +68,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>Developer DAO Access</h1>
-      {!connected && <button onClick={connect}>Connect</button>}
+      <Navbar transparent />
+      <main>
+        <div className="container mx-auto px-4 h-full">
+          <div className="flex content-center items-center justify-center h-full">
+            {/* <h1>Developer DAO Access</h1>
+            {!connected && <button onClick={connect}>Connect</button>} */}
+          </div>
+        </div>
+      </main>
 
       <footer className={styles.footer}>
         <a
